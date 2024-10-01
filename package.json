@@ -10,6 +10,8 @@
   "author": "Muhammed",
   "license": "ISC",
   "dependencies": {
+    "@quixo3/prisma-session-store": "^3.1.13",
+    "@supabase/supabase-js": "^2.45.4",
     "bcryptjs": "^2.4.3",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
