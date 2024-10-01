@@ -23,8 +23,8 @@ app.use(express.static(assetsPath));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-// app.use("/", loginRoute);
-// app.use("/register", registerRoute);
+app.use("/", loginRoute);
+app.use("/register", registerRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
