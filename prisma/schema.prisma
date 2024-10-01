@@ -14,57 +14,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// model User{
-//   id Int @id @default(autoincrement())
-//   email String @unique
-//   firstName String?
-//   lastName String?
-//   password String
-//   files File[]
-//   folders Folder[]
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   sharedFile File[] @relation("SharedFiles")
-//   sharedFiles SharedFile[]
-// }
-
-// model File{
-//   id Int @id @default(autoincrement())
-//   name String
-//   size BigInt //in bytes
-//   mineType String 
-//   url String // file storage url in supabase
-//   folder Folder? @relation(fields: [folderId], references: [id])
-//   folderId Int?
-//   owner User @relation(fields: [ownerId], references: [id])
-//   ownerId Int
-//   sharedWith User[] @relation("SharedFiles")
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   sharedFile SharedFile[]
-// }
-
-// model Folder{
-//   id Int @id @default(autoincrement())
-//   name String
-//   owner User @relation(fields: [ownerId], references: [id])
-//   ownerId Int 
-//   files File[]  //one can have many files
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
-// model SharedFile{
-//   id Int @id @default(autoincrement())
-//   file File @relation(fields: [fileId], references: [id])
-//   fileId Int
-//   user User @relation(fields: [userId], references: [id])
-//   userId Int
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
-
 model User {
   id                Int           @id @default(autoincrement())
   email             String        @unique
@@ -75,6 +24,7 @@ model User {
   folders           Folder[]      @relation("OwnedFolders")
   sharedFiles       SharedFile[]  @relation("UserSharedFiles")
   sharedFolders     SharedFolder[] @relation("UserSharedFolders")
+  session           Session[]
 }
 
 model File {
@@ -125,4 +75,13 @@ model SharedFolder {
   updatedAt   DateTime      @updatedAt
 
   @@unique([folderId, userId])
+}
+
+model Session {
+  id              String   @id
+  sid             String   @unique
+  data            String
+  user            User     @relation(fields: [userId], references: [id])
+  userId          Int
+  expiresAt       DateTime
 }
