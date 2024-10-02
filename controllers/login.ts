@@ -19,13 +19,13 @@ passport.use(
         });
 
         if (!user) {
-          return done(null, false, { message: "Incorrect email." });
+          return done(null, false, { message: "Wrong credentials!" });
         }
 
         const isValidPassword = await bcrypt.compare(password, user.password);
 
         if (!isValidPassword) {
-          return done(null, false, { message: "Incorrect password." });
+          return done(null, false, { message: "Wrong credentials!" });
         }
 
         return done(null, user);
@@ -74,11 +74,11 @@ const postLogin = (req: Request, res: Response) => {
     "local",
     (err: any, user: Express.User, info: { message: any }) => {
       if (err) {
-        return res.status(500).json({ message: "An error occurred." });
+        return res.redirect("/login");
       }
 
       if (!user) {
-        return res.status(400).json({ message: info.message });
+        return res.redirect("/login");
       }
 
       req.logIn(user, (err) => {
@@ -86,7 +86,7 @@ const postLogin = (req: Request, res: Response) => {
           return res.status(500).json({ message: "An error occurred." });
         }
 
-        return res.json({ message: "Logged in successfully" });
+        return res.redirect("/");
       });
     }
   )(req, res);

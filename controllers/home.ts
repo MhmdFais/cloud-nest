@@ -1,5 +1,10 @@
+import { Request, Response } from "express";
 import loginController from "../controllers/login";
 
 const authenticate = loginController.isAuthenticated;
 
-export default { authenticate };
+const home = (req: Request, res: Response) => {
+  res.render("home");
+};
+
+export default { authenticate, home };
