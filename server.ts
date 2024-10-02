@@ -36,7 +36,7 @@ app.use(
       dbRecordIdIsSessionId: true,
       dbRecordIdFunction: undefined,
     }),
-    secret: process.env.SESSION_SECRET!,
+    secret: "cat",
     resave: false,
     saveUninitialized: false,
     cookie: {

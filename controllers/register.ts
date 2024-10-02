@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient, Prisma } from "@prisma/client";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -9,34 +9,48 @@ const getRegister = (req: Request, res: Response) => {
 };
 
 const isEmailAlreadyExist = async (userEmail: string) => {
-  await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: {
       email: userEmail,
     },
   });
-  return true;
+  return !!user;
 };
 
-const createUser = async (req: Request, res: Response) => {
-  if (await isEmailAlreadyExist(req.body.email)) {
-    return res.json({ message: "Email already exist" });
-  }
-
-  const encyptPass = await bcrypt.hash(req.body.password, 10);
-
+const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    await prisma.user.create({
+    const existingUser = await prisma.user.findUnique({
+      where: { email: req.body.email },
+    });
+
+    if (existingUser) {
+      res.status(400).json({ message: "Email already exists" });
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+    const newUser = await prisma.user.create({
       data: {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        password: encyptPass,
+        password: hashedPassword,
       },
     });
 
-    return res.json({ message: "User created successfullt!" });
+    res.status(201).json({
+      message: "User created successfully!",
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+      },
+    });
   } catch (error) {
-    return res.json({ message: "Error while registering user!" });
+    console.error("Error creating user:", error);
+    res.status(500).json({ message: "Error while registering user!" });
   }
 };
 
