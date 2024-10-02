@@ -1,4 +1,3 @@
-import session from "express-session";
 import passport from "passport";
 import LocalStrategy from "passport-local";
 import { PrismaClient } from "@prisma/client";

@@ -11,8 +11,9 @@ import passport from "passport";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import { PrismaClient } from "@prisma/client";
 
-const loginRoute = require("./routes/login");
-const registerRoute = require("./routes/register");
+import loginRoute from "./routes/login";
+import registerRoute from "./routes/register";
+import homeRoute from "./routes/home";
 
 const PORT = process.env.PORT || 3000;
 const prisma = new PrismaClient();
@@ -49,6 +50,7 @@ app.use(passport.session());
 
 app.use("/login", loginRoute);
 app.use("/register", registerRoute);
+app.use("/", homeRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
