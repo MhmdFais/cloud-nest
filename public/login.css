@@ -180,3 +180,9 @@ a {
     gap: 1.5rem;
   }
 }
+
+/* Corrections */
+
+form button {
+  max-width: 40%;
+}
