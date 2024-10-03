@@ -107,6 +107,12 @@ a {
   cursor: pointer;
 }
 
+/* Register */
+
+.register form {
+  width: 100%;
+}
+
 @media screen and (max-width: 768px) {
   body {
     flex-direction: column;
