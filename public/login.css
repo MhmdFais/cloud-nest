@@ -1,0 +1,41 @@
+body {
+  display: flex;
+  flex-direction: row;
+  height: 100dvh;
+  gap: 1rem;
+}
+
+.left-side {
+  width: 30%;
+  background-image: url("./images/stacked-waves-haikei.png");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: white;
+}
+
+.app-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2rem, 6vw, 3rem);
+  padding-top: 10vh;
+  font-weight: bold;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding-top: 15vh;
+}
+
+.features p {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+.features p span {
+  color: red;
+}
