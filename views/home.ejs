@@ -19,21 +19,59 @@
         <p>Cloud Nest</p>
       </div>
       <div class="right-top">
-        <p>Hi,<%= user.firstName %> |</p>
+        <p>Hi, <%= user.firstName %> |</p>
         <a href="/logout">Logout</a>
       </div>
     </div>
     <div class="main-content">
       <div class="add-folder-file">
         <div class="add-folder">
-          <a href="/add-folder">New Folder</a>
+          <button id="openFolderModal">New Folder</button>
         </div>
         <div class="add-file">
-          <a href="/add-file">Upload File</a>
+          <button id="openFileModal">Upload File</button>
         </div>
       </div>
-      <div class="dashboard"></div>
+      <div class="dashboard">
+        <!-- Display existing folders and files here -->
+      </div>
     </div>
+
+    <!-- Folder model -->
+    <div id="folderModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Create New Folder</h2>
+        <form id="newFolderForm" action="/add-folder" method="POST">
+          <input
+            type="text"
+            id="folderName"
+            name="name"
+            placeholder="Folder Name"
+          />
+          <button type="submit">Create</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- File Modal -->
+    <div id="fileModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Upload File</h2>
+        <form
+          id="uploadFileForm"
+          action="/upload-file"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <input type="file" id="fileInput" name="file" />
+          <button type="submit">Upload</button>
+        </form>
+      </div>
+    </div>
+
+    <%- include('partials/footer') %>
+    <script src="/js/folder.js"></script>
   </body>
-  <%- include('partials/footer') %>
 </html>

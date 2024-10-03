@@ -9,17 +9,20 @@ const home = (req: Request, res: Response) => {
 };
 
 const addFolder = async (req: Request, res: Response) => {
-  const { name } = req.body;
+  const name = req.body.name;
   const userId = (req.user as any).id;
 
   const result = await db.createFolder(name, userId);
 
   if (!result.success) {
-    res.status(500).json({ error: result.error });
-    return;
+    // Redirect back with error
+    return res.redirect(
+      "/?error=" + encodeURIComponent("Failed to create folder")
+    );
   }
 
-  res.json(result.data);
+  // Redirect back to home page
+  res.redirect("/");
 };
 
 export default { authenticate, home, addFolder };

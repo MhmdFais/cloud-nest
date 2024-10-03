@@ -1,0 +1,38 @@
+// Get modal elements
+const folderModal = document.getElementById("folderModal");
+const fileModal = document.getElementById("fileModal");
+
+// Get buttons to open modals
+const openFolderModalBtn = document.getElementById("openFolderModal");
+const openFileModalBtn = document.getElementById("openFileModal");
+
+// Get close buttons
+const closeButtons = document.querySelectorAll(".close");
+
+// Open folder modal
+openFolderModalBtn.onclick = () => {
+  folderModal.style.display = "block";
+};
+
+// Open file modal
+openFileModalBtn.onclick = () => {
+  fileModal.style.display = "block";
+};
+
+// Close modals
+closeButtons.forEach((btn) => {
+  btn.onclick = () => {
+    folderModal.style.display = "none";
+    fileModal.style.display = "none";
+  };
+});
+
+// Close modal when clicking outside
+window.onclick = (event) => {
+  if (event.target === folderModal) {
+    folderModal.style.display = "none";
+  }
+  if (event.target === fileModal) {
+    fileModal.style.display = "none";
+  }
+};

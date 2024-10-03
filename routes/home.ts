@@ -6,7 +6,7 @@ const homeRouter = express.Router();
 
 homeRouter.get("/", homeController.authenticate, homeController.home);
 homeRouter.get("/logout", loginController.logOut);
-homeRouter.get(
+homeRouter.post(
   "/add-folder",
   homeController.authenticate,
   homeController.addFolder
