@@ -51,6 +51,9 @@
             required
           />
         </div>
+        <% if (locals.error) { %>
+        <div class="error-message"><%= error %></div>
+        <% } %>
         <button type="submit">Register</button>
       </form>
       <div class="regLink">

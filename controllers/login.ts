@@ -81,7 +81,10 @@ const postLogin = (req: Request, res: Response) => {
       }
 
       if (!user) {
-        return res.redirect("/login");
+        return res.render("login", {
+          error: info.message || "Invalid email or password.",
+          email: req.body.email, // Preserve the email for better UX
+        });
       }
 
       req.logIn(user, (err) => {

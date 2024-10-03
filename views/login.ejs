@@ -27,7 +27,13 @@
       <form action="/login" method="POST">
         <div class="form-input">
           <label for="email">Email</label>
-          <input type="email" name="email" placeholder="Email" required />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            required
+            value="<%= locals.email || '' %>"
+          />
         </div>
         <div class="form-input">
           <label for="password">Password</label>
@@ -38,6 +44,9 @@
             required
           />
         </div>
+        <% if (locals.error) { %>
+        <div class="error-message"><%= error %></div>
+        <% } %>
         <button type="submit">LogIn</button>
       </form>
       <div class="regLink">

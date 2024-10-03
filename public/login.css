@@ -186,3 +186,23 @@ a {
 form button {
   max-width: 40%;
 }
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 0.8rem 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Update your media query to handle error message in responsive layout */
+@media screen and (max-width: 768px) {
+  .error-message {
+    text-align: center;
+  }
+}

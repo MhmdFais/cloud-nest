@@ -24,8 +24,14 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     });
 
     if (existingUser) {
-      res.status(400).json({ message: "Email already exists" });
-      return;
+      return res.render("register", {
+        error: "User with this email already exists!",
+        formData: {
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          email: req.body.email,
+        },
+      });
     }
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
