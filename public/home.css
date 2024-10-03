@@ -1,0 +1,30 @@
+.app-bar {
+  background-color: #0b372e;
+  height: 8dvh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-bar {
+  color: white;
+  padding: 0 1.5rem;
+}
+
+.app-bar .left-top p {
+  font-weight: bold;
+  font-size: clamp(1rem, 2.5vw, 2rem);
+}
+
+.app-bar .right-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+}
+
+.right-top a {
+  color: rgb(238, 63, 63);
+  text-decoration: none;
+}
