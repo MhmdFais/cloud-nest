@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="right-side">
-      <h3>Login</h3>
+      <p class="login">Welcome Back! Log Into Your Account</p>
       <form action="/login" method="POST">
         <div class="form-input">
           <label for="email">Email</label>
@@ -38,9 +38,11 @@
             required
           />
         </div>
-        <button type="submit">LogIn</button>
       </form>
-      <p>Don't have an account? <a href="/register">Register</a></p>
+      <button type="submit">LogIn</button>
+      <div class="regLink">
+        <p>Don't have an account? <a href="/register">Register</a></p>
+      </div>
     </div>
   </body>
   <%- include('partials/footer') %>
