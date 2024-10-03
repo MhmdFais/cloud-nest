@@ -28,3 +28,38 @@
   color: rgb(238, 63, 63);
   text-decoration: none;
 }
+
+.main-content {
+  padding: 2vh 2vw;
+}
+
+.add-folder-file {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.add-folder a,
+.add-file a {
+  border: 2px solid #1c7765;
+  padding: 0.3rem 1.2rem;
+  text-decoration: none;
+  font-size: clamp(0.5rem, 1.5vw, 1rem);
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  color: black;
+}
+
+.add-folder a:hover,
+.add-file a:hover {
+  background-color: #1c7765;
+  transform: scale(1.05);
+  color: white;
+}
+
+.add-folder a:active,
+.add-file a:active {
+  transform: scale(0.95);
+  color: white;
+}
