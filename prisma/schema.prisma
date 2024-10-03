@@ -24,7 +24,7 @@ model User {
   folders           Folder[]      @relation("OwnedFolders")
   sharedFiles       SharedFile[]  @relation("UserSharedFiles")
   sharedFolders     SharedFolder[] @relation("UserSharedFolders")
-  session           Session[]
+  session           Session[]  @relation("UserSession")
 }
 
 model File {
@@ -81,7 +81,7 @@ model Session {
   id              String   @id
   sid             String   @unique
   data            String
-  user            User     @relation(fields: [userId], references: [id])
-  userId          Int
+  user            User?     @relation("UserSession", fields: [userId], references: [id])
+  userId          Int?
   expiresAt       DateTime
 }

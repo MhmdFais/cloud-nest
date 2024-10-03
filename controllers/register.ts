@@ -39,15 +39,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
       },
     });
 
-    res.status(201).json({
-      message: "User created successfully!",
-      user: {
-        id: newUser.id,
-        email: newUser.email,
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
-      },
-    });
+    res.redirect("/login");
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ message: "Error while registering user!" });

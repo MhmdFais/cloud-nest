@@ -52,9 +52,12 @@ passport.deserializeUser(async (id: number, done) => {
   }
 });
 
-const logOut = (req: Request, res: Response) => {
-  req.logout(() => {
-    res.json({ message: "Logged out successfully" });
+const logOut = (req: Request, res: Response, next: NextFunction) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/login");
   });
 };
 

@@ -31,7 +31,7 @@ app.set("view engine", "ejs");
 
 app.use(
   session({
-    store: new PrismaSessionStore(prisma as any, {
+    store: new PrismaSessionStore(prisma, {
       checkPeriod: 2 * 60 * 1000, // Clean up expired sessions every 2 minutes
       dbRecordIdIsSessionId: true,
       dbRecordIdFunction: undefined,
