@@ -75,6 +75,31 @@
   background-color: rgba(0, 0, 0, 0.5); /* Darker overlay */
 }
 
+.modal h2 {
+  padding-bottom: 1rem;
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1rem;
+  gap: 1rem;
+}
+
+.modal form label {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+}
+
+.modal input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #888;
+  font-size: clamp(0.5rem, 1.5vw, 1rem);
+}
+
 .modal-content {
   background-color: #ffffff;
   margin: 10% auto;
@@ -89,7 +114,7 @@
 .close {
   color: #e63f3f; /* Matching red for close button */
   float: right;
-  font-size: 1.8rem;
+  font-size: clamp(1rem, 2.5vw, 2rem);
   cursor: pointer;
 }
 
@@ -97,21 +122,6 @@
 .close:focus {
   color: #0b372e; /* Hover state matches green */
 }
-
-/* button {
-  background-color: #0b372e;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-top: 1rem;
-}
-
-button:hover {
-  background-color: #085d4b;
-} */
 
 button {
   background-color: inherit;
