@@ -11,5 +11,10 @@ homeRouter.post(
   homeController.authenticate,
   homeController.addFolder
 );
+homeRouter.post(
+  "/upload-file",
+  homeController.authenticate,
+  homeController.addFile
+);
 
 export default homeRouter;

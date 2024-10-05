@@ -15,14 +15,30 @@ const addFolder = async (req: Request, res: Response) => {
   const result = await db.createFolder(name, userId);
 
   if (!result.success) {
-    // Redirect back with error
     return res.redirect(
       "/?error=" + encodeURIComponent("Failed to create folder")
     );
   }
 
-  // Redirect back to home page
   res.redirect("/");
 };
 
-export default { authenticate, home, addFolder };
+const addFile = async (req: Request, res: Response) => {
+  if (!req.file) {
+    return res.redirect("/?error=" + encodeURIComponent("No file uploaded"));
+  }
+
+  const userId = (req.user as any).id;
+
+  const result = await db.createFile(req.file, userId);
+
+  if (!result.success) {
+    return res.redirect(
+      "/?error=" + encodeURIComponent("Failed to upload file")
+    );
+  }
+
+  res.redirect("/");
+};
+
+export default { authenticate, home, addFolder, addFile };
