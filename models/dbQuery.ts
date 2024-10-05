@@ -4,21 +4,6 @@ import fs from "fs";
 
 const prisma = new PrismaClient();
 
-const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
-const ALLOWED_MIME_TYPES = [
-  "image/jpeg",
-  "image/png",
-  "image/gif",
-  "application/pdf",
-  "application/msword",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  "application/vnd.ms-excel",
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  "video/mp4",
-  "video/quicktime",
-  "video/x-msvideo",
-];
-
 const createFolder = async (name: string, userId: number) => {
   try {
     const folder = await prisma.folder.create({
@@ -37,12 +22,13 @@ const createFolder = async (name: string, userId: number) => {
 const createFile = async (file: Express.Multer.File, userId: number) => {
   try {
     const fileBuffer = fs.readFileSync(file.path);
+    const fileKey = `files/${userId}/${Date.now()}-${file.originalname}`;
 
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from("files")
-      .upload(`files/${userId}/${file.originalname}`, fileBuffer, {
+      .upload(fileKey, fileBuffer, {
         contentType: file.mimetype,
-        upsert: true, // This will overwrite if file exists
+        upsert: true, // overwrite if exits
       });
 
     if (uploadError) {
@@ -51,11 +37,9 @@ const createFile = async (file: Express.Multer.File, userId: number) => {
 
     const {
       data: { publicUrl },
-    } = supabase.storage
-      .from("files")
-      .getPublicUrl(`files/${userId}/${file.originalname}`);
+    } = supabase.storage.from("files").getPublicUrl(fileKey);
 
-    fs.unlinkSync(file.path);
+    fs.unlinkSync(file.path); // clean temporary file
 
     const newFile = await prisma.file.create({
       data: {
@@ -72,10 +56,10 @@ const createFile = async (file: Express.Multer.File, userId: number) => {
     console.error("Error creating file:", error);
     try {
       if (fs.existsSync(file.path)) {
-        fs.unlinkSync(file.path);
+        fs.unlinkSync(file.path); // Clean up even on failure
       }
-    } catch (cleanupError) {
-      console.error("Error cleaning up temporary file:", cleanupError);
+    } catch (error) {
+      console.error("Error cleaning up temp file:", error);
     }
     return { success: false, error: "Failed to create file" };
   }
