@@ -4,6 +4,21 @@ import fs from "fs";
 
 const prisma = new PrismaClient();
 
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+const ALLOWED_MIME_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/gif",
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "video/mp4",
+  "video/quicktime",
+  "video/x-msvideo",
+];
+
 const createFolder = async (name: string, userId: number) => {
   try {
     const folder = await prisma.folder.create({
