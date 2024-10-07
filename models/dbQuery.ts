@@ -135,10 +135,27 @@ const deleteFile = async (userId: number, fileId: number) => {
   }
 };
 
+const deleteFolder = async (userId: number, folderId: number) => {
+  try {
+    await prisma.folder.delete({
+      where: {
+        id: folderId,
+        ownerId: userId,
+      },
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting folder:", error);
+    return { success: false, error: "Failed to delete folder" };
+  }
+};
+
 export default {
   createFolder,
   createFile,
   getSavedFolders,
   getSavedFiles,
   deleteFile,
+  deleteFolder,
 };
