@@ -4,6 +4,32 @@ import db from "../models/dbQuery";
 
 const authenticate = loginController.isAuthenticated;
 
+function formatTimeAgo(date: Date): string {
+  const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+
+  let interval = seconds / 31536000;
+  if (interval > 1) {
+    return Math.floor(interval) + " years ago";
+  }
+  interval = seconds / 2592000;
+  if (interval > 1) {
+    return Math.floor(interval) + " months ago";
+  }
+  interval = seconds / 86400;
+  if (interval > 1) {
+    return Math.floor(interval) + " days ago";
+  }
+  interval = seconds / 3600;
+  if (interval > 1) {
+    return Math.floor(interval) + " hours ago";
+  }
+  interval = seconds / 60;
+  if (interval > 1) {
+    return Math.floor(interval) + " minutes ago";
+  }
+  return Math.floor(seconds) + " seconds ago";
+}
+
 const home = async (req: Request, res: Response) => {
   const userId = (req.user as any).id;
 
@@ -19,10 +45,26 @@ const home = async (req: Request, res: Response) => {
     });
   }
 
+  const foldersWithFormattedDates = folders.data
+    ? folders.data.map((folder) => ({
+        ...folder,
+        createdAtAgo: formatTimeAgo(new Date(folder.createdAt)),
+        updatedAtAgo: formatTimeAgo(new Date(folder.updatedAt)),
+      }))
+    : [];
+
+  const filesWithFormattedDates = files.data
+    ? files.data.map((file) => ({
+        ...file,
+        createdAtAgo: formatTimeAgo(new Date(file.createdAt)),
+        updatedAtAgo: formatTimeAgo(new Date(file.updatedAt)),
+      }))
+    : [];
+
   res.render("home", {
     user: req.user,
-    folders: folders.data,
-    files: files.data,
+    folders: foldersWithFormattedDates,
+    files: filesWithFormattedDates,
   });
 };
 
