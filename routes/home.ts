@@ -24,7 +24,7 @@ homeRouter.post(
 );
 
 homeRouter.post(
-  "/delete-file/:id",
+  "/delete-file/:id/:name",
   homeController.authenticate,
   homeController.deleteFile
 );

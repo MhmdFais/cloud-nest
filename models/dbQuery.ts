@@ -102,7 +102,7 @@ const getSavedFiles = async (userId: number) => {
   }
 };
 
-const deleteFile = async (userId: number, fileId: number) => {
+const deleteFile = async (userId: number, fileId: number, name: string) => {
   try {
     const file = await prisma.file.findUnique({
       where: {
@@ -114,14 +114,9 @@ const deleteFile = async (userId: number, fileId: number) => {
       throw new Error("File not found");
     }
 
-    // Extract the relative path from the URL
-    const fileUrl = new URL(file.url);
-    const pathSegments = fileUrl.pathname.split("/");
-    const relativeFilePath = pathSegments.slice(2).join("/");
-
     const { error: deleteError } = await supabase.storage
       .from("files")
-      .remove([relativeFilePath]);
+      .remove([`${userId}/${name}`]);
 
     if (deleteError) {
       throw new Error(

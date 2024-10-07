@@ -106,8 +106,9 @@ const addFile = async (req: Request, res: Response) => {
 const deleteFile = async (req: Request, res: Response) => {
   const userId = (req.user as any).id;
   const fileId = parseInt(req.params.id);
+  const name = req.params.name;
 
-  const delFile = await db.deleteFile(userId, fileId);
+  const delFile = await db.deleteFile(userId, fileId, name);
 
   if (!delFile.success) {
     return res.redirect(
