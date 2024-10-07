@@ -110,17 +110,26 @@ const deleteFile = async (userId: number, fileId: number) => {
       },
     });
 
-    if (file?.url) {
-      const { error } = await supabase.storage.from("files").remove([file.url]);
-      if (error) {
-        throw new Error(
-          `Failed to remove file from Supabase: ${error.message}`
-        );
-      }
-    } else {
-      throw new Error("File URL is undefined");
+    if (!file) {
+      throw new Error("File not found");
     }
 
+    // Extract the relative path from the URL
+    const fileUrl = new URL(file.url);
+    const pathSegments = fileUrl.pathname.split("/");
+    const relativeFilePath = pathSegments.slice(2).join("/");
+
+    const { error: deleteError } = await supabase.storage
+      .from("files")
+      .remove([relativeFilePath]);
+
+    if (deleteError) {
+      throw new Error(
+        `Failed to remove file from Supabase: ${deleteError.message}`
+      );
+    }
+
+    // Delete from database
     await prisma.file.delete({
       where: {
         id: fileId,

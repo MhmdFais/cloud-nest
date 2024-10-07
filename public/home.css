@@ -234,3 +234,51 @@ footer a {
   text-decoration: none;
   color: rgb(238, 63, 63);
 }
+
+/* Delete Model */
+
+.modal.delete-modal {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content.delete-modal-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 30px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  width: 350px;
+  text-align: center;
+}
+
+.delete-modal-text {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.confirm-btn.delete-confirm-btn,
+.cancel-btn.delete-cancel-btn {
+  padding: 12px 30px;
+  margin: 8px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.confirm-btn.delete-confirm-btn {
+  background-color: #d9534f;
+  color: white;
+}
+
+.cancel-btn.delete-cancel-btn {
+  background-color: #6c757d;
+  color: white;
+}

@@ -36,3 +36,26 @@ window.onclick = (event) => {
     fileModal.style.display = "none";
   }
 };
+
+function confirmDelete(deleteUrl) {
+  // Show the delete modal
+  const modal = document.getElementById("deleteModal");
+  modal.style.display = "block";
+
+  // Confirm delete action
+  const confirmBtn = document.getElementById("confirmDeleteBtn");
+  confirmBtn.onclick = function () {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = deleteUrl;
+    document.body.appendChild(form);
+    form.submit();
+    modal.style.display = "none";
+  };
+
+  // Cancel delete action
+  const cancelBtn = document.getElementById("cancelDeleteBtn");
+  cancelBtn.onclick = function () {
+    modal.style.display = "none";
+  };
+}
