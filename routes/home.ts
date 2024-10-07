@@ -23,4 +23,10 @@ homeRouter.post(
   homeController.addFile
 );
 
+homeRouter.post(
+  "/delete-file/:id",
+  homeController.authenticate,
+  homeController.deleteFile
+);
+
 export default homeRouter;

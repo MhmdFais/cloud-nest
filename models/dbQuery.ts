@@ -102,4 +102,43 @@ const getSavedFiles = async (userId: number) => {
   }
 };
 
-export default { createFolder, createFile, getSavedFolders, getSavedFiles };
+const deleteFile = async (userId: number, fileId: number) => {
+  try {
+    const file = await prisma.file.findUnique({
+      where: {
+        id: fileId,
+      },
+    });
+
+    if (file?.url) {
+      const { error } = await supabase.storage.from("files").remove([file.url]);
+      if (error) {
+        throw new Error(
+          `Failed to remove file from Supabase: ${error.message}`
+        );
+      }
+    } else {
+      throw new Error("File URL is undefined");
+    }
+
+    await prisma.file.delete({
+      where: {
+        id: fileId,
+        ownerId: userId,
+      },
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting file:", error);
+    return { success: false, error: "Failed to delete file" };
+  }
+};
+
+export default {
+  createFolder,
+  createFile,
+  getSavedFolders,
+  getSavedFiles,
+  deleteFile,
+};

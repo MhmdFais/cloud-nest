@@ -62,11 +62,12 @@
                     <!-- Add edit and delete actions -->
                     <div class="dropdown-content">
                       <a href="/edit-folder/<%= folder.id %>">Edit</a>
-                      <a
-                        href="/delete-folder/<%= folder.id %>"
-                        onclick="return confirm('Are you sure?')"
-                        >Delete</a
+                      <form
+                        action="/delete-folder/<%= folder.id %>"
+                        method="POST"
                       >
+                        <button type="submit">Delete</button>
+                      </form>
                     </div>
                   </div>
                 </td>
@@ -84,11 +85,9 @@
                     <!-- Add edit and delete actions -->
                     <div class="dropdown-content">
                       <a href="/edit-file/<%= file.id %>">Edit</a>
-                      <a
-                        href="/delete-file/<%= file.id %>"
-                        onclick="return confirm('Are you sure?')"
-                        >Delete</a
-                      >
+                      <form action="/delete-file/<%= file.id %>" method="POST">
+                        <button type="submit">Delete</button>
+                      </form>
                     </div>
                   </div>
                 </td>

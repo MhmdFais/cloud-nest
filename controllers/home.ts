@@ -103,4 +103,21 @@ const addFile = async (req: Request, res: Response) => {
   res.redirect("/");
 };
 
-export default { authenticate, home, addFolder, addFile };
+const deleteFile = async (req: Request, res: Response) => {
+  const userId = (req.user as any).id;
+  const fileId = parseInt(req.params.id);
+
+  console.log((req.file as any).id);
+
+  const delFile = await db.deleteFile(userId, fileId);
+
+  if (!delFile.success) {
+    return res.redirect(
+      "/?error=" + encodeURIComponent("Failed to create folder")
+    );
+  }
+
+  res.redirect("/");
+};
+
+export default { authenticate, home, addFolder, addFile, deleteFile };
