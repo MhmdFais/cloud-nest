@@ -33,7 +33,44 @@
         </div>
       </div>
       <div class="dashboard">
-        <!-- Display existing folders and files here -->
+
+        <% if (folders && folders.length > 0) { %>
+          <div class="folders-section">
+            <!-- <h2>Folders</h2> -->
+            <div class="folders-grid">
+              <% folders.forEach(folder => { %>
+                <div class="folder-item">
+                  <img src="/images/folder-icon.png" alt="Folder">
+                  <p><%= folder.name %></p>
+                </div>
+              <% }); %>
+            </div>
+          </div>
+        <% } %>
+    
+        <% if (files && files.length > 0) { %>
+          <div class="files-section">
+            <!-- <h2>Files</h2> -->
+            <div class="files-grid">
+              <% files.forEach(file => { %>
+                <div class="file-item">
+                  <img src="/images/file-icon.png" alt="File">
+                  <p><%= file.name %></p>
+                  <p class="item-details"><%= file.formattedSize %></p>
+                  <a href="<%= file.url %>" target="_blank">Download</a>
+                </div>
+              <% }); %>
+            </div>
+          </div>
+        <% } %>
+    
+        <% if ((!folders || folders.length === 0) && (!files || files.length === 0)) { %>
+          <div class="empty-state">
+            <p>You don't have any files or folders yet. Start by creating a folder or uploading a file!</p>
+          </div>
+        <% } %>
+      </div>
+
       </div>
     </div>
 

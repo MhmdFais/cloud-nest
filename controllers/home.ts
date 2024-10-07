@@ -4,8 +4,26 @@ import db from "../models/dbQuery";
 
 const authenticate = loginController.isAuthenticated;
 
-const home = (req: Request, res: Response) => {
-  res.render("home", { user: req.user });
+const home = async (req: Request, res: Response) => {
+  const userId = (req.user as any).id;
+
+  const folders = await db.getSavedFolders(userId);
+  const files = await db.getSavedFiles(userId);
+
+  if (!folders.success && !files.success) {
+    return res.render("home", {
+      user: req.user,
+      error: "Failed to fetch your files and folders",
+      folders: [],
+      files: [],
+    });
+  }
+
+  res.render("home", {
+    user: req.user,
+    folders: folders.data,
+    files: files.data,
+  });
 };
 
 const addFolder = async (req: Request, res: Response) => {
