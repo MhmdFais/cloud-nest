@@ -22,7 +22,8 @@ const createFolder = async (name: string, userId: number) => {
 const createFile = async (file: Express.Multer.File, userId: number) => {
   try {
     const fileBuffer = fs.readFileSync(file.path);
-    const fileKey = `files/${userId}/${Date.now()}-${file.originalname}`;
+    //const fileKey = `files/${userId}/${file.originalname}`;
+    const fileKey = `${userId}/${file.originalname}`;
 
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from("files")

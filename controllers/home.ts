@@ -29,8 +29,10 @@ const addFile = async (req: Request, res: Response) => {
   }
 
   const userId = (req.user as any).id;
+  const name = req.body.name;
 
   const result = await db.createFile(req.file, userId);
+  console.log("Upload result:", result);
 
   if (!result.success) {
     return res.redirect(
