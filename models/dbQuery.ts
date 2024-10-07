@@ -66,4 +66,40 @@ const createFile = async (file: Express.Multer.File, userId: number) => {
   }
 };
 
-export default { createFolder, createFile };
+const getSavedFolders = async (userId: number) => {
+  try {
+    const folders = await prisma.folder.findMany({
+      where: {
+        ownerId: userId,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return { success: true, data: folders };
+  } catch (error) {
+    console.error("Database error fetching folders:", error);
+    return { success: false, error: "Failed to fetch folders" };
+  }
+};
+
+const getSavedFiles = async (userId: number) => {
+  try {
+    const files = await prisma.file.findMany({
+      where: {
+        ownerId: userId,
+        folderId: null,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return { success: true, data: files };
+  } catch (error) {
+    console.error("Database error fetching files:", error);
+    return { success: false, error: "Failed to fetch folders" };
+  }
+};
+
+export default { createFolder, createFile, getSavedFolders, getSavedFiles };
