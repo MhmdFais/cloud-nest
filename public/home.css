@@ -282,3 +282,13 @@ footer a {
   background-color: #6c757d;
   color: white;
 }
+
+/* Folder Hower */
+
+.folder-row {
+  cursor: pointer;
+}
+
+.folder-row:hover {
+  background-color: #f7f7f7;
+}

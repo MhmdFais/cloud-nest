@@ -49,7 +49,10 @@
             </thead>
             <tbody>
               <% folders.forEach(folder => { %>
-              <tr>
+              <tr
+                class="folder-row"
+                onclick="window.location.href='/<%= folder.id %>'"
+              >
                 <td><img src="/images/folder-icon.png" alt="Folder" /></td>
                 <td><%= folder.name %></td>
                 <td>-</td>
@@ -62,7 +65,7 @@
                       src="/images/del-icon.png"
                       alt="Delete"
                       class="delete-icon"
-                      onclick="confirmDelete('/delete-folder/<%= folder.id %>')"
+                      onclick="confirmDelete('/delete-folder/<%= folder.id %>'); event.stopPropagation();"
                     />
                   </div>
                 </td>
