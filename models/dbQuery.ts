@@ -155,6 +155,57 @@ const deleteFolder = async (userId: number, folderId: number) => {
   }
 };
 
+const uploadToAFolder = async (
+  file: Express.Multer.File,
+  userId: number,
+  folderId: number
+) => {
+  try {
+    const fileBuffer = fs.readFileSync(file.path);
+    const fileKey = `${userId}/${folderId}/${file.originalname}`;
+
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("files")
+      .upload(fileKey, fileBuffer, {
+        contentType: file.mimetype,
+        upsert: true, // overwrite if exits
+      });
+
+    if (uploadError) {
+      throw new Error(`Failed to upload to Supabase: ${uploadError.message}`);
+    }
+
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("files").getPublicUrl(fileKey);
+
+    fs.unlinkSync(file.path); // clean temporary file
+
+    const newFile = await prisma.file.create({
+      data: {
+        name: file.originalname,
+        size: file.size,
+        mimeType: file.mimetype,
+        url: publicUrl,
+        folderId: folderId,
+        ownerId: userId,
+      },
+    });
+
+    return { success: true, data: newFile };
+  } catch (error) {
+    console.error("Error creating file:", error);
+    try {
+      if (fs.existsSync(file.path)) {
+        fs.unlinkSync(file.path); // Clean up even on failure
+      }
+    } catch (error) {
+      console.error("Error cleaning up temp file:", error);
+    }
+    return { success: false, error: "Failed to create file" };
+  }
+};
+
 export default {
   createFolder,
   createFile,
@@ -162,4 +213,5 @@ export default {
   getSavedFiles,
   deleteFile,
   deleteFolder,
+  uploadToAFolder,
 };

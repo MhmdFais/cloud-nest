@@ -135,7 +135,32 @@ const deleteFolder = async (req: Request, res: Response) => {
 };
 
 const folderView = (req: Request, res: Response) => {
-  res.render("folder");
+  const folderId = req.params.folderId;
+  res.render("folder", {
+    user: req.user,
+    folderId: folderId,
+  });
+};
+
+const uploadFileToAFolder = async (req: Request, res: Response) => {
+  const userId = (req.user as any).id;
+  const folderId = parseInt(req.params.id);
+
+  if (!req.file) {
+    return res.redirect(
+      `/${folderId}?error=` + encodeURIComponent("No file uploaded")
+    );
+  }
+
+  const addFile = await db.uploadToAFolder(req.file, userId, folderId);
+
+  if (!addFile.success) {
+    return res.redirect(
+      `/${folderId}?error=` + encodeURIComponent("Failed to upload file")
+    );
+  }
+
+  res.redirect(`/${folderId}`);
 };
 
 export default {
@@ -146,4 +171,5 @@ export default {
   deleteFile,
   deleteFolder,
   folderView,
+  uploadFileToAFolder,
 };

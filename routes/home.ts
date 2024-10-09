@@ -41,4 +41,11 @@ homeRouter.get(
   homeController.folderView
 );
 
+homeRouter.post(
+  "/:id/upload-file",
+  homeController.authenticate,
+  upload.single("file"),
+  homeController.uploadFileToAFolder
+);
+
 export default homeRouter;
