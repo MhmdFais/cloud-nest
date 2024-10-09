@@ -185,6 +185,28 @@ const uploadFileToAFolder = async (req: Request, res: Response) => {
   res.redirect(`/${folderId}`);
 };
 
+const deleteAFileInTheFolder = async (req: Request, res: Response) => {
+  const userId = (req.user as any).id;
+  const fileId = parseInt(req.params.fileId);
+  const folderId = parseInt(req.params.folderId);
+  const name = req.params.name;
+
+  const delFile = await db.deleteAFileInTheFolder(
+    userId,
+    folderId,
+    fileId,
+    name
+  );
+
+  if (!delFile.success) {
+    return res.redirect(
+      `/${folderId}?error=` + encodeURIComponent("Failed to create folder")
+    );
+  }
+
+  res.redirect(`/${folderId}`);
+};
+
 export default {
   authenticate,
   home,
@@ -194,4 +216,5 @@ export default {
   deleteFolder,
   folderView,
   uploadFileToAFolder,
+  deleteAFileInTheFolder,
 };

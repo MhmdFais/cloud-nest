@@ -48,4 +48,10 @@ homeRouter.post(
   homeController.uploadFileToAFolder
 );
 
+homeRouter.post(
+  "/:folderId/delete-file/:fileId/:name",
+  homeController.authenticate,
+  homeController.deleteAFileInTheFolder
+);
+
 export default homeRouter;

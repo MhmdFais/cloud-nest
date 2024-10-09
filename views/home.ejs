@@ -53,7 +53,13 @@
                 class="folder-row"
                 onclick="window.location.href='/<%= folder.id %>'"
               >
-                <td><img src="/images/folder-icon.png" alt="Folder" /></td>
+                <td>
+                  <img
+                    src="/images/folder-icon.png"
+                    alt="Folder"
+                    style="width: 20px; height: 20px"
+                  />
+                </td>
                 <td><%= folder.name %></td>
                 <td>-</td>
                 <!-- No size for folders -->
@@ -65,6 +71,12 @@
                       src="/images/del-icon.png"
                       alt="Delete"
                       class="delete-icon"
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        cursor: pointer;
+                        color: red;
+                      "
                       onclick="confirmDelete('/delete-folder/<%= folder.id %>'); event.stopPropagation();"
                     />
                   </div>
@@ -75,7 +87,13 @@
                 class="folder-row"
                 onclick="window.location.href='<%= file.id %>/<%= file.name %>'"
               >
-                <td><img src="/images/file-icon.png" alt="File" /></td>
+                <td>
+                  <img
+                    src="/images/file-icon.png"
+                    alt="File"
+                    style="width: 20px; height: 20px"
+                  />
+                </td>
                 <td><%= file.name %></td>
                 <td><%= (Number(file.size) / (1024)).toFixed(2) %> KB</td>
                 <td><%= file.createdAtAgo %></td>
@@ -86,6 +104,12 @@
                       src="/images/del-icon.png"
                       alt="Delete"
                       class="delete-icon"
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        cursor: pointer;
+                        color: red;
+                      "
                       onclick="confirmDelete('/delete-folder/<%= file.id %>/<%= file.name %>'); event.stopPropagation();"
                     />
                   </div>

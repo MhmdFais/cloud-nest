@@ -225,6 +225,48 @@ const getFilesInAFolder = async (userId: number, folderId: number) => {
   }
 };
 
+const deleteAFileInTheFolder = async (
+  userId: number,
+  folderId: number,
+  fileId: number,
+  name: string
+) => {
+  try {
+    const file = await prisma.file.findUnique({
+      where: {
+        id: fileId,
+      },
+    });
+
+    if (!file) {
+      throw new Error("File not found");
+    }
+
+    const { error: deleteError } = await supabase.storage
+      .from("files")
+      .remove([`${userId}/${folderId}/${name}`]);
+
+    if (deleteError) {
+      throw new Error(
+        `Failed to remove file from Supabase: ${deleteError.message}`
+      );
+    }
+
+    await prisma.file.delete({
+      where: {
+        id: fileId,
+        ownerId: userId,
+        folderId: folderId,
+      },
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting file:", error);
+    return { success: false, error: "Failed to delete file" };
+  }
+};
+
 export default {
   createFolder,
   createFile,
@@ -234,4 +276,5 @@ export default {
   deleteFolder,
   uploadToAFolder,
   getFilesInAFolder,
+  deleteAFileInTheFolder,
 };
