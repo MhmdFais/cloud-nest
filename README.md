@@ -6,12 +6,12 @@ This project is a web-based file storage service, similar to Google Drive, allow
 
 # Features
 
-1. Authentication
+## Authentication
 
 - User login/logout (with session management).
 - Secured access to user-specific files and folders.
 
-2. Files and Folder Management
+## Files and Folder Management
 
 - Users can create folders to organize their files.
 - Upload files (with a size limit of 50MB).
@@ -19,25 +19,25 @@ This project is a web-based file storage service, similar to Google Drive, allow
 - View files inside folders.
 - Display file creation and modification times (e.g., "2 days ago").
 
-3. Secure File Access
+## Secure File Access
 
 - Files are stored in Supabase and are accessed through signed URLs to ensure security.
 - Files are available only for a temporary duration (1 hour) after the signed URL is generated.
 
 # Technology Stack
 
-1. Backend:
+## Backend:
 
 - Node.js with Express framework.
 - Prisma ORM for database management.
 - Supabase for file storage and signed URLs.
 - Multer for handling file uploads.
 
-2. Database:
+## Database:
 
 - PostgreSQL (via Prisma).
 
-3. Frontend:
+## Frontend:
 
 - Rendered using templating engines like EJS (views rendered server-side).
 
@@ -97,7 +97,7 @@ npm run dev
 
 # Key Modules and Routes
 
-1. Home Controller (controllers/home.ts)
+## Home Controller (controllers/home.ts)
 
 - home(): Renders the dashboard view, listing all folders and files for the authenticated user.
 - addFolder(): Allows users to create new folders.
@@ -107,12 +107,12 @@ npm run dev
 - folderView(): Displays files inside a specific folder.
 - serveFiles(): Fetches files securely using a signed URL generated from Supabase.
 
-2. Authentication (controllers/login.ts)
+## Authentication (controllers/login.ts)
 
 - isAuthenticated(): Middleware to ensure users are authenticated before accessing any resource.
 - logOut(): Handles user logout.
 
-3. Routes
+## Routes
 
 - GET /: Renders the home page with the user's folders and files.
 - POST /add-folder: Adds a new folder.
