@@ -134,11 +134,33 @@ const deleteFolder = async (req: Request, res: Response) => {
   res.redirect("/");
 };
 
-const folderView = (req: Request, res: Response) => {
-  const folderId = req.params.folderId;
+const folderView = async (req: Request, res: Response) => {
+  const userId = (req.user as any).id;
+  const folderId = parseInt(req.params.folderId);
+
+  const files = await db.getFilesInAFolder(userId, folderId);
+
+  if (!files.success) {
+    return res.render("home", {
+      user: req.user,
+      error: "Failed to fetch your files and folders",
+      folders: [],
+      files: [],
+    });
+  }
+
+  const filesWithFormattedDates = files.data
+    ? (await files.data).map((file) => ({
+        ...file,
+        createdAtAgo: formatTimeAgo(new Date(file.createdAt)),
+        updatedAtAgo: formatTimeAgo(new Date(file.updatedAt)),
+      }))
+    : [];
+
   res.render("folder", {
     user: req.user,
     folderId: folderId,
+    files: filesWithFormattedDates,
   });
 };
 

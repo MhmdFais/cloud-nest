@@ -30,23 +30,77 @@
             <button id="openFileModal">Upload File</button>
           </div>
         </div>
-      </div>
 
-      <!-- File Modal -->
-      <div id="fileModal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <h2>Upload File</h2>
-          <form
-            id="uploadFileForm"
-            action="/<%= folderId %>/upload-file"
-            method="POST"
-            name="name"
-            enctype="multipart/form-data"
-          >
-            <input type="file" id="fileInput" name="file" />
-            <button type="submit">Upload</button>
-          </form>
+        <div class="dashboard">
+          <% if (files && files.length > 0) { %>
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Size</th>
+                <th>Created</th>
+                <th>Last Updated</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% files.forEach(file => { %>
+              <tr class="folder-row">
+                <td>
+                  <img
+                    src="/images/file-icon.png"
+                    alt="File"
+                    style="width: 20px; height: 20px"
+                  />
+                </td>
+                <td><%= file.name %></td>
+                <td><%= (Number(file.size) / (1024)).toFixed(2) %> KB</td>
+                <td><%= file.createdAtAgo %></td>
+                <td><%= file.updatedAtAgo %></td>
+                <td>
+                  <div class="options">
+                    <img
+                      src="/images/del-icon.png"
+                      alt="Delete"
+                      class="delete-icon"
+                      style="
+                        width: 20px;
+                        height: 20px;
+                        cursor: pointer;
+                        color: red;
+                      "
+                      onclick="confirmDelete('/<%= folderId %>/delete-file/<%= file.id %>/<%= file.name %>'); event.stopPropagation();"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+          <% } else { %>
+          <div class="empty-state">
+            <p>This folder is empty. Upload files to get started!</p>
+          </div>
+          <% } %>
+        </div>
+
+        <!-- File Modal -->
+        <div id="fileModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Upload File</h2>
+            <form
+              id="uploadFileForm"
+              action="/<%= folderId %>/upload-file"
+              method="POST"
+              name="name"
+              enctype="multipart/form-data"
+            >
+              <input type="file" id="fileInput" name="file" />
+              <button type="submit">Upload</button>
+            </form>
+          </div>
         </div>
       </div>
 

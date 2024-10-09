@@ -206,6 +206,25 @@ const uploadToAFolder = async (
   }
 };
 
+const getFilesInAFolder = async (userId: number, folderId: number) => {
+  try {
+    const files = prisma.file.findMany({
+      where: {
+        ownerId: userId,
+        folderId: folderId,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return { success: true, data: files };
+  } catch (error) {
+    console.error("Database error fetching files:", error);
+    return { success: false, error: "Failed to fetch folders" };
+  }
+};
+
 export default {
   createFolder,
   createFile,
@@ -214,4 +233,5 @@ export default {
   deleteFile,
   deleteFolder,
   uploadToAFolder,
+  getFilesInAFolder,
 };
