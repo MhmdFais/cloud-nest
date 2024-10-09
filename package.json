@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "A cloud storage app",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "node server.ts",
-    "dev": "nodemon server.ts",
+    "start": "ts-node server.ts",
+    "build": "tsc",
+    "dev": "nodemon --exec ts-node server.ts",
     "tsc": "tsc"
   },
   "author": "Muhammed",
