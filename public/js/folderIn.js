@@ -42,7 +42,7 @@ function confirmDelete(deleteUrl) {
     form.action = deleteUrl;
     document.body.appendChild(form);
     form.submit();
-    modal.style.display = "none";
+    //modal.style.display = "none";
   };
 
   // Cancel delete action
