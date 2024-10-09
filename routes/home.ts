@@ -35,4 +35,10 @@ homeRouter.post(
   homeController.deleteFolder
 );
 
+homeRouter.get(
+  "/:folderId",
+  homeController.authenticate,
+  homeController.folderView
+);
+
 export default homeRouter;

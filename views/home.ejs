@@ -71,7 +71,10 @@
                 </td>
               </tr>
               <% }); %> <% files.forEach(file => { %>
-              <tr>
+              <tr
+                class="folder-row"
+                onclick="window.location.href='<%= file.id %>/<%= file.name %>'"
+              >
                 <td><img src="/images/file-icon.png" alt="File" /></td>
                 <td><%= file.name %></td>
                 <td><%= (Number(file.size) / (1024)).toFixed(2) %> KB</td>
@@ -83,7 +86,7 @@
                       src="/images/del-icon.png"
                       alt="Delete"
                       class="delete-icon"
-                      onclick="confirmDelete('/delete-file/<%= file.id %>/<%= file.name %>')"
+                      onclick="confirmDelete('/delete-folder/<%= file.id %>/<%= file.name %>'); event.stopPropagation();"
                     />
                   </div>
                 </td>

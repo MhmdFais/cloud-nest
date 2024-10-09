@@ -134,6 +134,10 @@ const deleteFolder = async (req: Request, res: Response) => {
   res.redirect("/");
 };
 
+const folderView = (req: Request, res: Response) => {
+  res.render("folder");
+};
+
 export default {
   authenticate,
   home,
@@ -141,4 +145,5 @@ export default {
   addFile,
   deleteFile,
   deleteFolder,
+  folderView,
 };
