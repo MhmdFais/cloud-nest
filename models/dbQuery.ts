@@ -267,6 +267,54 @@ const deleteAFileInTheFolder = async (
   }
 };
 
+const serveFile = async (userId: number, fileId: number) => {
+  try {
+    const file = await prisma.file.findUnique({
+      where: {
+        id: fileId,
+        ownerId: userId,
+      },
+    });
+
+    if (!file) {
+      return { success: false, error: "File not found" };
+    }
+
+    // Extract the file key from the URL
+    const urlParts = file.url.split("/");
+    const fileKey = urlParts.slice(-2).join("/");
+
+    // Get a temporary URL that expires in 1 hour
+    const { data, error } = await supabase.storage
+      .from("files")
+      .createSignedUrl(fileKey, 3600); // 3600 seconds = 1 hour
+
+    if (error || !data) {
+      throw new Error(`Failed to generate signed URL: ${error?.message}`);
+    }
+
+    const { signedUrl } = data;
+
+    if (error) {
+      throw new Error(
+        `Failed to generate signed URL: ${(error as Error).message}`
+      );
+    }
+
+    return {
+      success: true,
+      data: {
+        signedUrl,
+        fileName: file.name,
+        mimeType: file.mimeType,
+      },
+    };
+  } catch (error) {
+    console.error("Error serving file:", error);
+    return { success: false, error: "Failed to serve file" };
+  }
+};
+
 export default {
   createFolder,
   createFile,
@@ -277,4 +325,5 @@ export default {
   uploadToAFolder,
   getFilesInAFolder,
   deleteAFileInTheFolder,
+  serveFile,
 };

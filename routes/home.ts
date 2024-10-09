@@ -54,4 +54,10 @@ homeRouter.post(
   homeController.deleteAFileInTheFolder
 );
 
+homeRouter.get(
+  "/:fileId/:name",
+  homeController.authenticate,
+  homeController.serveFiles
+);
+
 export default homeRouter;
