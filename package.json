@@ -34,7 +34,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/express": "^5.0.0",
     "@types/express-session": "^1.18.0",
-    "@types/node": "^22.7.4",
+    "@types/node": "^22.7.5",
     "@types/passport": "^1.0.16",
     "@types/passport-local": "^1.0.38",
     "supabase": "^1.200.3",
