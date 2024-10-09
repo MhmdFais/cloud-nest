@@ -47,7 +47,10 @@
             </thead>
             <tbody>
               <% files.forEach(file => { %>
-              <tr class="folder-row">
+              <tr
+                class="folder-row"
+                onclick="window.location.href='/<%= folderId %>/<%= file.id %>/<%= file.name %>'"
+              >
                 <td>
                   <img
                     src="/images/file-icon.png"

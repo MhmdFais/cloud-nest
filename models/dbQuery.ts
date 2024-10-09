@@ -315,6 +315,56 @@ const serveFile = async (userId: number, fileId: number) => {
   }
 };
 
+const serveFileInAFolder = async (
+  userId: number,
+  folderId: number,
+  fileId: number
+) => {
+  try {
+    const file = await prisma.file.findUnique({
+      where: {
+        id: fileId,
+        ownerId: userId,
+        folderId: folderId,
+      },
+    });
+
+    if (!file) {
+      return { success: false, error: "File not found" };
+    }
+
+    const fileKey = `${userId}/${folderId}/${file.name}`;
+
+    const { data, error } = await supabase.storage
+      .from("files")
+      .createSignedUrl(fileKey, 3600);
+
+    if (error || !data) {
+      throw new Error(`Failed to generate signed URL: ${error?.message}`);
+    }
+
+    const { signedUrl } = data;
+
+    if (error) {
+      throw new Error(
+        `Failed to generate signed URL: ${(error as Error).message}`
+      );
+    }
+
+    return {
+      success: true,
+      data: {
+        signedUrl,
+        fileName: file.name,
+        mimeType: file.mimeType,
+      },
+    };
+  } catch (error) {
+    console.error("Error serving file:", error);
+    return { success: false, error: "Failed to serve file" };
+  }
+};
+
 export default {
   createFolder,
   createFile,
@@ -326,4 +376,5 @@ export default {
   getFilesInAFolder,
   deleteAFileInTheFolder,
   serveFile,
+  serveFileInAFolder,
 };

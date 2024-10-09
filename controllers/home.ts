@@ -215,7 +215,26 @@ const serveFiles = async (req: Request, res: Response) => {
 
   if (!result.success || !result.data) {
     return res.redirect(
-      `/?error=` + encodeURIComponent("Failed to create folder")
+      `/?error=` + encodeURIComponent("Failed to open the file")
+    );
+  }
+
+  const url = result.data.signedUrl;
+
+  res.redirect(url);
+};
+
+const serverFilesInAFolder = async (req: Request, res: Response) => {
+  const userId = (req.user as any).id;
+  const fileId = parseInt(req.params.fileId);
+  const folderId = parseInt(req.params.folderId);
+  const name = req.params.name;
+
+  const result = await db.serveFileInAFolder(userId, folderId, fileId);
+
+  if (!result.success || !result.data) {
+    return res.redirect(
+      `/?error=` + encodeURIComponent("Failed to open the file")
     );
   }
 
@@ -235,4 +254,5 @@ export default {
   uploadFileToAFolder,
   deleteAFileInTheFolder,
   serveFiles,
+  serverFilesInAFolder,
 };

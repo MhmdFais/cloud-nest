@@ -60,4 +60,10 @@ homeRouter.get(
   homeController.serveFiles
 );
 
+homeRouter.get(
+  "/:folderId/:fileId/:name",
+  homeController.authenticate,
+  homeController.serverFilesInAFolder
+);
+
 export default homeRouter;
