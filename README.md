@@ -4,6 +4,14 @@ This project is a web-based file storage service, similar to Google Drive, allow
 
 # Screenshots
 
+![image](https://github.com/user-attachments/assets/34ebf10e-30ed-4874-952a-989aef650e53)
+
+![image](https://github.com/user-attachments/assets/4875be58-1cad-4d2e-8e27-a7beb8e681e4)
+
+![image](https://github.com/user-attachments/assets/f8fbf9fe-84c9-47b4-a46c-c199bac0034c)
+
+![image](https://github.com/user-attachments/assets/b78bce62-98a6-453c-9839-bfb54547112d)
+
 # Features
 
 ## Authentication
